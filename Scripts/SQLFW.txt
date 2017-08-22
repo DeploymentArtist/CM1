@@ -1,0 +1,11 @@
+sc config MpsSvc start= demand 
+sc start MpsSvc
+netsh advfirewall firewall add rule name=”SQL Server (TCP 1432)” dir=in action=allow protocol=TCP localport=1433 profile=domain 
+netsh advfirewall firewall add rule name=”SQL Admin Connection (TCP 1434)” dir=in action=allow protocol=TCP localport=1434 profile=domain 
+netsh advfirewall firewall add rule name=”SQL Service Broker (TCP 4022)” dir=in action=allow protocol=TCP localport=4022 profile=domain 
+netsh advfirewall firewall add rule name=”SQL Debugger/RPC (TCP 135)” dir=in action=allow protocol=TCP localport=135 profile=domain 
+netsh advfirewall firewall add rule name=”SQL Browser (UDP 1434)” dir=in action=allow protocol=UDP localport=1434 profile=domain 
+netsh advfirewall firewall add rule name=”Analysis Services (TCP 2383)” dir=in action=allow protocol=TCP localport=2383 profile=domain 
+netsh advfirewall firewall add rule name=”SQL Browser (TCP 2382)” dir=in action=allow protocol=TCP localport=2382 profile=domain 
+sc stop MpsSvc 
+sc config MpsSvc start= disabled

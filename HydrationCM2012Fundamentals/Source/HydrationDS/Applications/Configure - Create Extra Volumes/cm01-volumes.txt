@@ -1,0 +1,11 @@
+Select disk 0
+Convert dynamic
+create volume simple size = 51200
+format fs=ntfs quick label=TempDB
+assign
+create volume simple size = 102400
+format fs=ntfs quick label=DB
+assign
+create volume simple size = 102400
+format fs=ntfs quick label=DBLogs
+assign

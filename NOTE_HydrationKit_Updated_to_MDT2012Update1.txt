@@ -1,0 +1,3 @@
+Since the release of the book, Microsoft have upgraded MDT 2012 RTM to MDT 2012 Update 1 (and removed MDT 2012 RTM from Microsoft downloads)
+
+This hydration kit is upgraded to use MDT 2012 Update 1 instead of MDT 2012

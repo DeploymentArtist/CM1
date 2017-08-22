@@ -1,0 +1,104 @@
+<job id="Configure-CMTrace">
+<script language="VBScript" src="..\..\Scripts\ZTIUtility.vbs"/>
+<script language="VBScript"> 
+
+'//----------------------------------------------------------------------------
+'// Solution: Hydration
+'// Purpose: Used configure and start the DHCP Service
+'// Usage: Configure-DHCPService.wsf [/debug:true]
+'// Version: 1.0 - 12 Nov 2011 - Johan Arwidmark
+'//
+'// This script is provided "AS IS" with no warranties, confers no rights and 
+'// is not supported by the authors or Deployment Artist. 
+'//
+'//----------------------------------------------------------------------------
+
+'//----------------------------------------------------------------------------
+'// Global constant and variable declarations
+'//---------------------------------------------------------------------------- 
+
+Option Explicit 
+
+Dim iRetVal 
+
+'//----------------------------------------------------------------------------
+'// End declarations
+'//---------------------------------------------------------------------------- 
+
+'//----------------------------------------------------------------------------
+'// Main routine
+'//---------------------------------------------------------------------------- 
+
+'On Error Resume Next
+iRetVal = ZTIProcess
+ProcessResults iRetVal
+On Error Goto 0 
+
+'//---------------------------------------------------------------------------
+'//
+'// Function: ZTIProcess()
+'//
+'// Input: None
+'// 
+'// Return: Success - 0
+'// Failure - non-zero
+'//
+'// Purpose: Perform main ZTI processing
+'// 
+'//---------------------------------------------------------------------------
+Function ZTIProcess() 
+
+	Dim colServiceList
+    Dim colServiceTest
+    Dim objService
+    Dim objServiceTest
+    Dim sState
+    
+    oLogging.CreateEntry "Configure DHCP Service: Starting Configuration", LogTypeInfo	
+
+    Set colServiceList = objWMI.ExecQuery("Select * from Win32_Service where Name='DHCPServer'")
+    
+    ' Configure the DHCP Server for Automatic Start, and then start the service
+    For Each objService in colServiceList
+        iRetVal = objService.Change( , , , , "Automatic")
+        iRetVal = objService.StartService()   
+        
+       ' Wait until the service started
+        Do Until sState = "Running"
+
+            Set colServiceTest = objWMI.ExecQuery("Select * from Win32_Service where Name='DHCPServer'")
+
+            For Each objServiceTest in colServiceTest    
+                sState = objServiceTest.State
+                wscript.sleep 1000
+            Next
+
+            Set colServiceTest = Nothing
+
+        Loop
+
+    Next
+
+    
+
+	oLogging.CreateEntry "Configure DHCP Service: Finished  Configuration", LogTypeInfo	
+
+End Function 
+
+</script>
+</job>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

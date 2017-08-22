@@ -1,0 +1,7 @@
+Registering  NetBIOS syntax and example
+Setspn -A MSSQLSvc/<SQL Server name>:1433 <domain>\<user>
+Setspn -A MSSQLSvc/CM01:1433 CORP\CM_SQ
+
+Registering FQDN syntax and example
+Setspn -A MSSQLSvc/<FQDN SQL Server name>:1433 <domain>\<user>
+setspn -A MSSQLSvc/cm01.corp.viamonstra.com:1433 CORP\CM_SQ
